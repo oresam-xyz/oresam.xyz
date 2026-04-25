@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samuel O'Regan — Founding Engineer & AI Builder · Cape Town</title>
+  <meta name="description" content="Samuel O'Regan is a founding engineer and AI-native builder based in Cape Town, South Africa. Specialising in agentic systems, MCP, fintech, and full-stack development." />
+  <meta name="author" content="Samuel O'Regan" />
+  <meta name="keywords" content="Samuel O'Regan, software engineer Cape Town, AI engineer South Africa, agentic systems, MCP developer, Python TypeScript, website developer Cape Town, fintech engineer" />
+  <link rel="canonical" href="https://oresam.xyz/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://oresam.xyz/" />
+  <meta property="og:title" content="Samuel O'Regan — Founding Engineer & AI Builder" />
+  <meta property="og:description" content="Agentic systems, MCP, fintech. Building software that operates without being asked twice. Based in Cape Town, South Africa." />
+  <meta property="og:site_name" content="Samuel O'Regan" />
+  <meta property="og:locale" content="en_ZA" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Samuel O'Regan — Founding Engineer & AI Builder" />
+  <meta name="twitter:description" content="Agentic systems, MCP, fintech. Building software that operates without being asked twice. Cape Town, SA." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#00e5ff" />
+
+  <!-- JSON-LD structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Samuel O'Regan",
+    "url": "https://oresam.xyz",
+    "email": "oregansamuel3@gmail.com",
+    "jobTitle": "Founding Engineer",
+    "description": "AI-native software engineer specialising in agentic systems, MCP, and full-stack fintech development.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Cape Town",
+      "addressRegion": "Western Cape",
+      "addressCountry": "ZA"
+    },
+    "sameAs": [
+      "https://linkedin.com/in/samueloregan",
+      "https://gitlab.com/portfolio2112240",
+      "https://github.com/oregansamuel3"
+    ],
+    "knowsAbout": [
+      "Python", "TypeScript", "JavaScript", "Java", "Rust", "Go",
+      "FastAPI", "Vue", "React", "AWS", "Kafka", "PostgreSQL", "Docker",
+      "Model Context Protocol", "Agentic Systems", "Microservices",
+      "Retrieval-Augmented Generation", "LLM Integration", "Fintech"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Independent"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-base:      #07070f;
+      --bg-surface:   #0d0d1a;
+      --bg-card:      #111827;
+      --cyan:         #00e5ff;
+      --magenta:      #e040fb;
+      --green:        #39ff14;
+      --amber:        #ffab00;
+      --text-primary: #e2e8f0;
+      --text-muted:   #64748b;
+      --border:       rgba(0, 229, 255, 0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── UTILITIES ────────────────────────────────── */
+    .mono        { font-family: 'Share Tech Mono', monospace; }
+    .label       { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+    .glow-cyan   { text-shadow: 0 0 8px rgba(0,229,255,0.8), 0 0 24px rgba(0,229,255,0.4); }
+    .glow-magenta{ text-shadow: 0 0 8px rgba(224,64,251,0.8), 0 0 24px rgba(224,64,251,0.4); }
+    .border-glow { box-shadow: 0 0 0 1px var(--border), 0 0 16px rgba(0,229,255,0.06); }
+
+    .scanlines {
+      position: relative;
+    }
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 229, 255, 0.012) 2px,
+        rgba(0, 229, 255, 0.012) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ── NAV ──────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 52px;
+      background: rgba(7, 7, 15, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .nav-logo {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--cyan);
+      text-shadow: 0 0 8px rgba(0,229,255,0.6);
+      letter-spacing: 0.1em;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--cyan); }
+
+    /* ── HERO ─────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(0,229,255,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(224,64,251,0.03) 0%, transparent 60%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .hero-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    h1 span { color: var(--cyan); }
+
+    .hero-titles {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title-chip {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+    }
+
+    .hero-summary {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .hero-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: transparent;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 0.6rem 1.6rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: rgba(0,229,255,0.08);
+      box-shadow: 0 0 16px rgba(0,229,255,0.2);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.6rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(0,229,255,0.4);
+      color: var(--text-primary);
+    }
+
+    /* ── SECTIONS ─────────────────────────────────── */
+    section {
+      padding: 5rem 2rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+
+    /* ── ABOUT ────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-text {
+      font-size: 1rem;
+      color: #94a3b8;
+      line-height: 1.8;
+      grid-column: 1 / -1;
+    }
+
+    .about-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-glow: var(--border);
+      padding: 1.2rem 1.4rem;
+      border-radius: 2px;
+    }
+
+    .about-stat .value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.6rem;
+      color: var(--cyan);
+      text-shadow: 0 0 8px rgba(0,229,255,0.5);
+    }
+
+    .about-stat .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ── SKILLS ───────────────────────────────────── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .skill-chip {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .skill-chip:hover {
+      border-color: rgba(0,229,255,0.5);
+      color: var(--cyan);
+      box-shadow: 0 0 8px rgba(0,229,255,0.12);
+    }
+
+    .skill-chip.highlight {
+      border-color: rgba(0,229,255,0.35);
+      color: var(--cyan);
+    }
+
+    /* ── PROJECTS ─────────────────────────────────── */
+    .carousel-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 1.2rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      padding: 0.5rem 0.25rem 1rem;
+    }
+
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel-track .project-card {
+      min-width: 280px;
+      max-width: 280px;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+
+    .carousel-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0,229,255,0.08);
+      box-shadow: 0 0 12px rgba(0,229,255,0.2);
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,229,255,0.3);
+      box-shadow: 0 0 24px rgba(0,229,255,0.06);
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .project-name {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      color: var(--cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .project-subtitle {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--magenta);
+      border: 1px solid rgba(224,64,251,0.2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    /* ── EXPERIENCE ───────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -1.5rem;
+      top: 0.45rem;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 6px rgba(0,229,255,0.6);
+      transform: translateX(-3px);
+    }
+
+    .job-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.2rem;
+    }
+
+    .job-company {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .job-role {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .job-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .job-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .job-bullets li {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .job-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--border);
+    }
+
+    /* ── CONTACT ──────────────────────────────────── */
+    #contact {
+      max-width: 560px;
+    }
+
+    .contact-intro {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--cyan); }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: #334155;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+  </style>
+</head>
+<body class="scanlines">
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">S.O'REGAN</span>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">// Cape Town, South Africa</p>
+      <h1>Samuel <span class="glow-cyan">O'Regan</span></h1>
+      <div class="hero-titles">
+        <span class="hero-title-chip">Founding Engineer</span>
+        <span class="hero-title-chip">AI-Native Builder</span>
+        <span class="hero-title-chip">Agentic Systems</span>
+      </div>
+      <p class="hero-summary">
+        I build systems that do the work. Autonomous pipelines, agentic AI, and local-first
+        infrastructure — no hand-holding required.
+      </p>
+      <div class="hero-links">
+        <a href="#contact" class="btn-primary">Get in Touch</a>
+        <a href="#projects" class="btn-ghost">View Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-label">01</span>
+      <h2 class="section-title">About</h2>
+    </div>
+
+    <div class="about-grid">
+      <p class="about-text">
+        I value autonomy and automation above interactive hand-holding. Systems should do the work,
+        not ask for permission. Local-first, privacy-preserving architectures are the default —
+        cloud services are a last resort. Complexity is a liability: simpler designs, even at the
+        cost of features, are preferred over clever abstractions that add cognitive overhead.
+        When something is broken, I fix the root cause. Workarounds and sunk-cost reasoning are
+        explicitly rejected.
+      </p>
+
+      <div class="about-stat border-glow">
+        <div class="value">3+</div>
+        <div class="stat-label">Years Production Experience</div>
+      </div>
+      <div class="about-stat border-glow">
+        <div class="value">6+</div>
+        <div class="stat-label">Languages in Production</div>
+      </div>
+      <div class="about-stat border-glow">
+        <div class="value mono" style="color: var(--magenta); text-shadow: 0 0 8px rgba(224,64,251,0.5);">MCP</div>
+        <div class="stat-label">AI / Agentic Tooling</div>
+      </div>
+      <div class="about-stat border-glow">
+        <div class="value" style="color: var(--green); text-shadow: 0 0 8px rgba(57,255,20,0.5);">CPT</div>
+        <div class="stat-label">Based in Cape Town, SA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-label">02</span>
+      <h2 class="section-title">Skills</h2>
+    </div>
+
+    <div class="skills-grid">
+      <span class="skill-chip highlight">Python</span>
+      <span class="skill-chip highlight">TypeScript</span>
+      <span class="skill-chip highlight">JavaScript</span>
+      <span class="skill-chip highlight">Java</span>
+      <span class="skill-chip">Rust</span>
+      <span class="skill-chip">Go</span>
+      <span class="skill-chip">FastAPI</span>
+      <span class="skill-chip">Vue</span>
+      <span class="skill-chip">React</span>
+      <span class="skill-chip">AWS</span>
+      <span class="skill-chip">Kafka</span>
+      <span class="skill-chip highlight">PostgreSQL</span>
+      <span class="skill-chip">Docker</span>
+      <span class="skill-chip highlight">Claude / MCP</span>
+      <span class="skill-chip">PyTorch</span>
+      <span class="skill-chip">Playwright</span>
+      <span class="skill-chip highlight">Agentic Systems</span>
+      <span class="skill-chip highlight">Microservices</span>
+      <span class="skill-chip">DDD</span>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-label">03</span>
+      <h2 class="section-title">Projects</h2>
+    </div>
+
+    <div class="carousel-wrapper">
+      <button class="carousel-btn" onclick="carouselScroll(-1)" aria-label="Previous">&#8249;</button>
+      <div class="carousel-track" id="projects-track">
+        <div id="projects-loading" style="padding: 2rem 1rem;">
+          <span class="mono" style="font-size:0.8rem; color: var(--text-muted);">// fetching repositories...</span>
+        </div>
+      </div>
+      <button class="carousel-btn" onclick="carouselScroll(1)" aria-label="Next">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-label">04</span>
+      <h2 class="section-title">Experience</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="job-header">
+          <span class="job-company">Glyde Payments</span>
+          <span class="job-role">Software Engineer</span>
+        </div>
+        <div class="job-meta">Aug 2025 – Nov 2025 · Cape Town</div>
+        <ul class="job-bullets">
+          <li>Redesigned and implemented the automated testing framework, improving test coverage and local development reliability across the team</li>
+          <li>Built a local development utility managing full service lifecycle, database seeding, and developer tooling — adopted by the team</li>
+          <li>Designed agentic AI workflows using Claude, integrating LLM-driven automation into existing payment processes</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="job-header">
+          <span class="job-company">Capitec Bank</span>
+          <span class="job-role">Software Engineer</span>
+        </div>
+        <div class="job-meta">Mar 2023 – Jul 2025 · Cape Town</div>
+        <ul class="job-bullets">
+          <li>Led microservices migration from on-premise infrastructure to AWS Cloud, improving scalability and operational visibility</li>
+          <li>Migrated core payment services from monolith to distributed microservices, reducing coupling and improving independent deployability</li>
+          <li>Delivered full integration with Perx rewards provider including real-time feed monitoring and PagerDuty transaction feed</li>
+          <li>Integrated ScanToPay transactions into the existing Kafka payment channel</li>
+          <li>Worked on Live Better rewards platform serving millions of customers in a high-stakes, compliance-heavy environment</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: var(--text-muted); box-shadow: none;"></div>
+        <div class="job-header">
+          <span class="job-company">PBT Group</span>
+          <span class="job-role">Software Developer</span>
+        </div>
+        <div class="job-meta">Jun 2022 – Feb 2023 · Cape Town (Remote)</div>
+        <ul class="job-bullets">
+          <li>Supported development processes and cross-team coordination within Capitec's engineering environment</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-label">05</span>
+      <h2 class="section-title">Contact</h2>
+    </div>
+
+    <p class="contact-intro">
+      Building something interesting? Have a problem that needs an autonomous solution?
+      Drop me a message and I'll get back to you.
+    </p>
+
+    <a class="btn-primary" href="mailto:oregansamuel3@gmail.com?subject=Hello%20Samuel" style="display:inline-block; margin-bottom:2rem;">
+      Send an Email
+    </a>
+
+    <div style="display:flex; flex-direction:column; gap:0.6rem;">
+      <span class="mono" style="font-size:0.8rem; color:var(--text-muted);">// or reach me on</span>
+      <a href="https://linkedin.com/in/samueloregan" target="_blank" rel="noopener"
+         style="font-family:'Share Tech Mono',monospace; font-size:0.85rem; color:var(--cyan); text-decoration:none;">
+        linkedin.com/in/samueloregan
+      </a>
+      <a href="https://gitlab.com/portfolio2112240" target="_blank" rel="noopener"
+         style="font-family:'Share Tech Mono',monospace; font-size:0.85rem; color:var(--cyan); text-decoration:none;">
+        gitlab.com/portfolio2112240
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="mailto:oregansamuel3@gmail.com">oregansamuel3@gmail.com</a>
+      <a href="https://linkedin.com/in/samueloregan" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://gitlab.com/portfolio2112240" target="_blank" rel="noopener">GitLab</a>
+      <a href="https://github.com/oregansamuel3" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="footer-copy">Samuel O'Regan · Cape Town</p>
+  </footer>
+
+  <script>
+    // ── GITLAB PROJECTS ───────────────────────────
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    function projectCard(p) {
+      const tags = (p.topics || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+      const avatar = p.avatar_url
+        ? `<img class="project-avatar" src="${p.avatar_url}" alt="" loading="lazy" />`
+        : '';
+      return `
+        <div class="project-card">
+          <div class="project-card-header">
+            ${avatar}
+            <a href="${p.web_url}" target="_blank" rel="noopener" style="text-decoration:none;">
+              <div class="project-name">${escapeHtml(p.name)}</div>
+            </a>
+          </div>
+          ${p.description
+            ? `<p class="project-desc">${escapeHtml(p.description)}</p>`
+            : `<p class="project-desc" style="opacity:0.4;font-style:italic;">No description</p>`
+          }
+          ${tags ? `<div class="project-tags" style="margin-top:auto;">${tags}</div>` : ''}
+        </div>`;
+    }
+
+    function carouselScroll(dir) {
+      document.getElementById('projects-track').scrollBy({ left: dir * 310, behavior: 'smooth' });
+    }
+
+    const track = document.getElementById('projects-track');
+    track.addEventListener('wheel', (e) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      track.scrollBy({ left: e.deltaY * 2, behavior: 'smooth' });
+    }, { passive: false });
+
+    async function loadProjects() {
+      const track = document.getElementById('projects-track');
+      try {
+        let res = await fetch(
+          'https://gitlab.com/api/v4/users/portfolio2112240/projects?visibility=public&order_by=last_activity_at&per_page=20'
+        );
+        if (!res.ok) {
+          res = await fetch(
+            'https://gitlab.com/api/v4/groups/portfolio2112240/projects?visibility=public&order_by=last_activity_at&per_page=20'
+          );
+        }
+        if (!res.ok) throw new Error(res.statusText);
+
+        const projects = (await res.json()).filter(p => !p.marked_for_deletion_at);
+
+        if (!projects.length) {
+          track.innerHTML = `<p class="mono" style="color:var(--text-muted);font-size:0.8rem;">// No public repositories found.</p>`;
+          return;
+        }
+
+        track.innerHTML = projects.map(projectCard).join('');
+      } catch {
+        track.innerHTML = `
+          <p class="mono" style="color:var(--text-muted);font-size:0.8rem;">
+            // Could not load repositories —
+            <a href="https://gitlab.com/portfolio2112240" target="_blank" rel="noopener" style="color:var(--cyan);">view on GitLab</a>
+          </p>`;
+      }
+    }
+
+    // ── NAV SCROLL HIGHLIGHT ──────────────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 80) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--cyan)' : '';
+      });
+    });
+
+    loadProjects();
+  </script>
+
+</body>
+</html>

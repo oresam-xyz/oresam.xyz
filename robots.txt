@@ -1,0 +1,88 @@
+# robots.txt — oresam.xyz
+# Allow: legitimate search engine crawlers
+# Block: AI training scrapers and generic bots
+
+# Google Search
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# ── AI training crawlers — not welcome ────────────
+
+# OpenAI training bot
+User-agent: GPTBot
+Disallow: /
+
+# Google's AI training (separate from Googlebot)
+User-agent: Google-Extended
+Disallow: /
+
+# Common Crawl (feeds most open-source model training sets)
+User-agent: CCBot
+Disallow: /
+
+# Anthropic training scraper
+User-agent: anthropic-ai
+Disallow: /
+
+# Perplexity AI scraper
+User-agent: PerplexityBot
+Disallow: /
+
+# ByteDance / TikTok
+User-agent: Bytespider
+Disallow: /
+
+# Amazon
+User-agent: Amazonbot
+Disallow: /
+
+# Meta AI training
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# ── Generic scrapers ──────────────────────────────
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+# ── Everything else — block ───────────────────────
+User-agent: *
+Disallow: /
+
+# ── Sitemap ───────────────────────────────────────
+Sitemap: https://oresam.xyz/sitemap.xml

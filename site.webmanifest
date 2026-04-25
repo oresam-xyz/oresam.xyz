@@ -1,0 +1,17 @@
+{
+  "name": "Samuel O'Regan",
+  "short_name": "S.O'Regan",
+  "description": "Founding Engineer · AI-Native Builder · Agentic Systems — Cape Town",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07070f",
+  "theme_color": "#00e5ff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

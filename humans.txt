@@ -1,0 +1,8 @@
+/* TEAM */
+Developer: Samuel O'Regan
+Contact: oregansamuel3@gmail.com
+Location: Cape Town, South Africa
+
+/* SITE */
+Built with: HTML, CSS, JavaScript, FastAPI
+Hosted on: oresam.xyz
