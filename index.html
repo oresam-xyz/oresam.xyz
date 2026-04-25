@@ -502,6 +502,48 @@
       border-radius: 2px;
     }
 
+    /* ── ACTIVITY GRAPH ─────────────────────────── */
+    .activity-graph-wrap { margin-bottom: 2rem; }
+    .activity-months { margin-bottom: 4px; white-space: nowrap; }
+    .activity-grid {
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .activity-grid::-webkit-scrollbar { display: none; }
+    .activity-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .activity-cell {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .activity-cell[data-level="1"] { background: rgba(0,229,255,0.18); border-color: rgba(0,229,255,0.15); }
+    .activity-cell[data-level="2"] { background: rgba(0,229,255,0.38); border-color: rgba(0,229,255,0.3); }
+    .activity-cell[data-level="3"] { background: rgba(0,229,255,0.62); border-color: rgba(0,229,255,0.5); }
+    .activity-cell[data-level="4"] { background: rgba(0,229,255,0.9);  border-color: rgba(0,229,255,0.8); }
+    .activity-legend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+      justify-content: flex-end;
+    }
+    .project-updated {
+      font-size: 0.68rem;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
     /* ── EXPERIENCE ───────────────────────────────── */
     .timeline {
       position: relative;
@@ -737,6 +779,22 @@
       <h2 class="section-title">Projects</h2>
     </div>
 
+    <div class="activity-graph-wrap">
+      <div class="activity-months" id="activity-months"></div>
+      <div class="activity-grid" id="activity-grid">
+        <span class="mono" style="font-size:0.7rem;color:var(--text-muted);">// loading activity...</span>
+      </div>
+      <div class="activity-legend">
+        <span class="mono" style="font-size:0.65rem;color:var(--text-muted);">less</span>
+        <div class="activity-cell"></div>
+        <div class="activity-cell" data-level="1"></div>
+        <div class="activity-cell" data-level="2"></div>
+        <div class="activity-cell" data-level="3"></div>
+        <div class="activity-cell" data-level="4"></div>
+        <span class="mono" style="font-size:0.65rem;color:var(--text-muted);">more</span>
+      </div>
+    </div>
+
     <div class="carousel-wrapper">
       <button class="carousel-btn" onclick="carouselScroll(-1)" aria-label="Previous">&#8249;</button>
       <div class="carousel-track" id="projects-track">
@@ -848,10 +906,23 @@
       return d.innerHTML;
     }
 
+    function relativeTime(dateStr) {
+      const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+      if (days === 0) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 30) return `${days}d ago`;
+      const mo = Math.floor(days / 30);
+      if (mo < 12) return `${mo}mo ago`;
+      return `${Math.floor(mo / 12)}y ago`;
+    }
+
     function projectCard(p) {
       const tags = (p.topics || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
       const avatar = p.avatar_url
         ? `<img class="project-avatar" src="${p.avatar_url}" alt="" loading="lazy" />`
+        : '';
+      const updated = p.last_activity_at
+        ? `<div class="project-updated">// updated ${relativeTime(p.last_activity_at)}</div>`
         : '';
       return `
         <div class="project-card">
@@ -866,6 +937,7 @@
             : `<p class="project-desc" style="opacity:0.4;font-style:italic;">No description</p>`
           }
           ${tags ? `<div class="project-tags" style="margin-top:auto;">${tags}</div>` : ''}
+          ${updated}
         </div>`;
     }
 
@@ -910,6 +982,68 @@
       }
     }
 
+    async function loadActivityGraph() {
+      const gridEl = document.getElementById('activity-grid');
+      const monthsEl = document.getElementById('activity-months');
+      try {
+        const res = await fetch('https://gitlab.com/users/portfolio2112240/calendar.json');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const dow = today.getDay(); // 0=Sun
+
+        // Start on a Sunday, 52 weeks back
+        const start = new Date(today);
+        start.setDate(start.getDate() - dow - 52 * 7);
+
+        const weeks = [];
+        const monthLabels = [];
+        let lastMonth = -1;
+        let cur = new Date(start);
+
+        while (cur <= today) {
+          const week = [];
+          const weekStart = new Date(cur);
+          for (let d = 0; d < 7; d++) {
+            if (cur > today) {
+              week.push(null);
+            } else {
+              const key = cur.toISOString().slice(0, 10);
+              week.push({ date: key, count: data[key] || 0 });
+            }
+            cur.setDate(cur.getDate() + 1);
+          }
+          const m = weekStart.getMonth();
+          if (m !== lastMonth) {
+            monthLabels.push({ idx: weeks.length, label: weekStart.toLocaleString('default', { month: 'short' }) });
+            lastMonth = m;
+          }
+          weeks.push(week);
+        }
+
+        // Month labels — each spans N weeks at 14px per week (11px cell + 3px gap)
+        const step = 14;
+        monthsEl.innerHTML = monthLabels.map((m, i) => {
+          const end = monthLabels[i + 1]?.idx ?? weeks.length;
+          const w = (end - m.idx) * step;
+          return `<span style="display:inline-block;width:${w}px;font-size:0.65rem;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">${m.label}</span>`;
+        }).join('');
+
+        gridEl.innerHTML = weeks.map(week => `
+          <div class="activity-col">
+            ${week.map(day => {
+              if (!day) return `<div class="activity-cell"></div>`;
+              const lv = day.count === 0 ? 0 : day.count <= 2 ? 1 : day.count <= 5 ? 2 : day.count <= 9 ? 3 : 4;
+              return `<div class="activity-cell" data-level="${lv}" title="${day.date}: ${day.count} contribution${day.count !== 1 ? 's' : ''}"></div>`;
+            }).join('')}
+          </div>`).join('');
+      } catch {
+        gridEl.innerHTML = '';
+      }
+    }
+
     // ── NAV SCROLL HIGHLIGHT ──────────────────────
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('nav a');
@@ -924,6 +1058,7 @@
       });
     });
 
+    loadActivityGraph();
     loadProjects();
   </script>
 
