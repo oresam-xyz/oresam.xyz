@@ -1,11 +1,14 @@
 import os
+import time
 import smtplib
 import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+import httpx
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, EmailStr, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -30,7 +33,7 @@ ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_methods=["POST"],
+    allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
 )
 
@@ -39,6 +42,32 @@ SMTP_PORT     = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER     = os.environ["SMTP_USER"]
 SMTP_PASSWORD = os.environ["SMTP_PASSWORD"]
 TO_EMAIL      = os.environ["TO_EMAIL"]
+
+
+_activity_cache: dict = {"data": None, "ts": 0.0}
+_ACTIVITY_TTL = 3600  # 1 hour
+
+GITLAB_CALENDAR_URL = "https://gitlab.com/users/samuel.oregan/calendar.json"
+
+
+@app.get("/activity")
+async def get_activity():
+    now = time.time()
+    if _activity_cache["data"] is not None and now - _activity_cache["ts"] < _ACTIVITY_TTL:
+        return JSONResponse(content=_activity_cache["data"])
+    try:
+        async with httpx.AsyncClient(follow_redirects=True, timeout=10) as client:
+            resp = await client.get(GITLAB_CALENDAR_URL)
+            resp.raise_for_status()
+            data = resp.json()
+        _activity_cache["data"] = data
+        _activity_cache["ts"] = now
+        return JSONResponse(content=data)
+    except Exception as exc:
+        logger.error("Failed to fetch GitLab activity: %s", exc)
+        if _activity_cache["data"] is not None:
+            return JSONResponse(content=_activity_cache["data"])
+        raise HTTPException(status_code=502, detail="Could not fetch activity data.")
 
 
 class ContactForm(BaseModel):

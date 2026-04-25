@@ -45,7 +45,7 @@
     },
     "sameAs": [
       "https://linkedin.com/in/samueloregan",
-      "https://gitlab.com/portfolio2112240",
+      "https://gitlab.com/samuel.oregan",
       "https://github.com/oregansamuel3"
     ],
     "knowsAbout": [
@@ -880,7 +880,7 @@
          style="font-family:'Share Tech Mono',monospace; font-size:0.85rem; color:var(--cyan); text-decoration:none;">
         linkedin.com/in/samueloregan
       </a>
-      <a href="https://gitlab.com/portfolio2112240" target="_blank" rel="noopener"
+      <a href="https://gitlab.com/samuel.oregan" target="_blank" rel="noopener"
          style="font-family:'Share Tech Mono',monospace; font-size:0.85rem; color:var(--cyan); text-decoration:none;">
         gitlab.com/portfolio2112240
       </a>
@@ -892,7 +892,7 @@
     <div class="footer-links">
       <a href="mailto:oregansamuel3@gmail.com">oregansamuel3@gmail.com</a>
       <a href="https://linkedin.com/in/samueloregan" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://gitlab.com/portfolio2112240" target="_blank" rel="noopener">GitLab</a>
+      <a href="https://gitlab.com/samuel.oregan" target="_blank" rel="noopener">GitLab</a>
       <a href="https://github.com/oregansamuel3" target="_blank" rel="noopener">GitHub</a>
     </div>
     <p class="footer-copy">Samuel O'Regan · Cape Town</p>
@@ -977,18 +977,42 @@
         track.innerHTML = `
           <p class="mono" style="color:var(--text-muted);font-size:0.8rem;">
             // Could not load repositories —
-            <a href="https://gitlab.com/portfolio2112240" target="_blank" rel="noopener" style="color:var(--cyan);">view on GitLab</a>
+            <a href="https://gitlab.com/samuel.oregan" target="_blank" rel="noopener" style="color:var(--cyan);">view on GitLab</a>
           </p>`;
       }
+    }
+
+    async function fetchActivityData() {
+      const isLocal = location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      if (!isLocal) {
+        const res = await fetch('https://oresam.xyz/activity');
+        if (!res.ok) throw new Error('backend error');
+        return res.json();
+      }
+      // Local dev: aggregate from the CORS-enabled events API
+      const BASE = 'https://gitlab.com/api/v4/users/19475581/events';
+      const r1 = await fetch(`${BASE}?per_page=100&page=1`);
+      if (!r1.ok) throw new Error('events api error');
+      const totalPages = parseInt(r1.headers.get('x-total-pages') || '1');
+      const events1 = await r1.json();
+      const rest = await Promise.all(
+        Array.from({ length: Math.min(totalPages - 1, 19) }, (_, i) =>
+          fetch(`${BASE}?per_page=100&page=${i + 2}`).then(r => r.json())
+        )
+      );
+      const counts = {};
+      for (const e of [...events1, ...rest.flat()]) {
+        const d = e.created_at?.slice(0, 10);
+        if (d) counts[d] = (counts[d] || 0) + 1;
+      }
+      return counts;
     }
 
     async function loadActivityGraph() {
       const gridEl = document.getElementById('activity-grid');
       const monthsEl = document.getElementById('activity-months');
       try {
-        const res = await fetch('https://gitlab.com/users/portfolio2112240/calendar.json');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
+        const data = await fetchActivityData();
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
