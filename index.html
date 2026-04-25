@@ -1008,6 +1008,13 @@
       try {
         const data = await fetchActivityData();
 
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - 30);
+        if (!Object.keys(data).some(d => new Date(d) >= cutoff)) {
+          document.getElementById('activity-graph-wrap')?.remove();
+          return;
+        }
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const dow = today.getDay(); // 0=Sun
