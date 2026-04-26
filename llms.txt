@@ -36,6 +36,7 @@ Python · TypeScript · JavaScript · Java · Rust · Go · FastAPI · Vue · Re
 ## Contact
 
 - Email: oregansamuel3@gmail.com
+- Book a call: https://calendar.app.google/oA7H3M21DbKBNYch7
 - LinkedIn: https://linkedin.com/in/samueloregan
 - GitLab: https://gitlab.com/portfolio2112240
 - GitHub: https://github.com/oregansamuel3
