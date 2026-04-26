@@ -919,10 +919,10 @@
       }
     }
 
-    async function fetchActivityData() {
+    async function fetchGitLabEvents() {
       const BASE = 'https://gitlab.com/api/v4/users/19475581/events';
       const r1 = await fetch(`${BASE}?per_page=100&page=1`);
-      if (!r1.ok) throw new Error('events api error');
+      if (!r1.ok) return [];
       const totalPages = parseInt(r1.headers.get('x-total-pages') || '1');
       const events1 = await r1.json();
       const rest = await Promise.all(
@@ -930,8 +930,35 @@
           fetch(`${BASE}?per_page=100&page=${i + 2}`).then(r => r.json())
         )
       );
+      return [...events1, ...rest.flat()];
+    }
+
+    async function fetchGitHubEvents() {
+      const BASE = 'https://api.github.com/users/oresam-xyz/events/public';
+      // Fetch all pages sequentially until empty (GitHub caps at 300 events / 10 pages)
+      const all = [];
+      for (let page = 1; page <= 10; page++) {
+        const r = await fetch(`${BASE}?per_page=30&page=${page}`).catch(() => null);
+        if (!r || !r.ok) break;
+        const events = await r.json();
+        if (!events.length) break;
+        all.push(...events);
+        if (events.length < 30) break;
+      }
+      return all;
+    }
+
+    async function fetchActivityData() {
+      const [gitlabEvents, githubEvents] = await Promise.all([
+        fetchGitLabEvents(),
+        fetchGitHubEvents(),
+      ]);
       const counts = {};
-      for (const e of [...events1, ...rest.flat()]) {
+      for (const e of gitlabEvents) {
+        const d = e.created_at?.slice(0, 10);
+        if (d) counts[d] = (counts[d] || 0) + 1;
+      }
+      for (const e of githubEvents) {
         const d = e.created_at?.slice(0, 10);
         if (d) counts[d] = (counts[d] || 0) + 1;
       }
